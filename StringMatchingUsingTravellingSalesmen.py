@@ -54,12 +54,20 @@ def stringMatching(firstString, secondString):
     print("Maximum number of matching is ", dp[n][m])
 
     # function call to display final matrix.
-    printMatrix(dp)
+    printMatrix(dp, firstString, secondString)
 
 
 # function to display a two dimensional function.
-def printMatrix(arr):
+def printMatrix(arr, firstString, secondString):
+    print("  _", end=" ")
+    for i in range(len(secondString)):
+        print(secondString[i], end=" ")
+    print()
     for i in range(len(arr)):
+        if i == 0:
+            print("_", end=" ")
+        else:
+            print(firstString[i - 1], end=" ")
         for j in range(len(arr[0])):
             print(arr[i][j], end=" ")
         print()
