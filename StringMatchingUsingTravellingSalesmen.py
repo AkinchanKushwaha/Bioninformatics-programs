@@ -1,9 +1,16 @@
-# function to find the maximum number of matches in two strings using travelling salesmen algorithm.
+# ==========================================
+#  Author: Akinchan Kushwaha
+#  Date:   27 Oct 2021
+# ==========================================
+
+
+# function to find the maximum number of matches in two strings and common sequence between two strings
+# using travelling salesmen algorithm.
 def stringMatching(firstString, secondString):
     n = len(firstString)  # length of firstString
     m = len(secondString)  # length of secondString
 
-    print("Length of first string is:", n, " \nLength of second string is:", m)
+    print("Length of first sequence is:", n, " \nLength of second sequence is:", m)
 
     # Initialization of dp matrix of size n+1 and m+1
     rows, cols = (n + 1, m + 1)
@@ -50,11 +57,88 @@ def stringMatching(firstString, secondString):
             else:
                 dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])
 
-    # maximum number of matches in both string is dp[n][m]
-    print("Maximum number of matching is ", dp[n][m])
-
     # function call to display final matrix.
     printMatrix(dp, firstString, secondString)
+
+    # Initialization of two empty strings
+    firstStringFinal = ""
+    secondStringFinal = ""
+
+    # counters for backtracking
+    i = n
+    j = m
+
+    # variable to keep track of number of steps
+    step = 0
+
+    # Backtracking in dp matrix.
+    while i > 0 or j > 0:
+        leftElement = dp[i][j - 1]
+        topElement = dp[i - 1][j]
+        diagonalElement = dp[i - 1][j - 1]
+        currentElement = dp[i][j]
+
+        # if diagonal element is greater than left and top element or
+        # diagonal element is equal to both left and top element then
+        # add character on present position to both strings.
+        # if diagonal element is same as current element then it means
+        # that characters at same index are not same and there's a mismatch
+        if diagonalElement >= leftElement and diagonalElement >= topElement and diagonalElement != currentElement:
+            firstStringFinal = firstString[i - 1] + firstStringFinal
+            secondStringFinal = secondString[j - 1] + secondStringFinal
+            i = i - 1
+            j = j - 1
+
+        elif i == 0 and j > 0:
+            while j > 0:
+                secondStringFinal = secondString[j - 1] + secondStringFinal
+                firstStringFinal = "_" + firstStringFinal
+                j = j - 1
+
+        elif j == 0 and i > 0:
+            while i > 0:
+                firstStringFinal = firstString[i - 1] + firstStringFinal
+                secondStringFinal = "_" + secondStringFinal
+                i = i - 1
+
+        elif i > 0 and currentElement == topElement:
+            firstStringFinal = firstString[i - 1] + firstStringFinal
+            secondStringFinal = "_" + secondStringFinal
+            i = i - 1
+
+        else:
+            secondStringFinal = secondString[j - 1] + secondStringFinal
+            firstStringFinal = "_" + firstStringFinal
+            j = j - 1
+
+        print("step:", step, firstStringFinal, " ", secondStringFinal)
+        step += 1
+
+    # print highlighted common sequence
+    highlightMatchingSequence(firstStringFinal, secondStringFinal)
+
+    # Matching score of both string is dp[n][m]
+    print("Matching score of both string is ", dp[n][m])
+
+
+# function to highlight matching sequence of two sequence
+def highlightMatchingSequence(firstString, secondString):
+    BLUE = '\033[94m'
+    END = '\033[0m'
+    print("\nFinal matching sequence is: ")
+    for i in range(len(firstString)):
+        if firstString[i] == secondString[i]:
+            print(BLUE, firstString[i], END, end="")
+        else:
+            print(firstString[i], END, end="")
+
+    print()
+    for i in range(len(secondString)):
+        if firstString[i] == secondString[i]:
+            print(BLUE, secondString[i], END, end="")
+        else:
+            print(secondString[i], END, end="")
+    print()
 
 
 # function to display a two dimensional function.
@@ -71,9 +155,15 @@ def printMatrix(arr, firstString, secondString):
         for j in range(len(arr[0])):
             print(arr[i][j], end=" ")
         print()
+    print()
 
 
 if __name__ == '__main__':
-    string1 = input("Enter first string: ")
-    string2 = input("Enter second string: ")
+    string1 = input("Enter first sequence: ")
+    string2 = input("Enter second sequence: ")
+
+    # Remove all the spaces from the string
+    string1 = string1.upper().replace(" ", "")
+    string2 = string2.upper().replace(" ", "")
+
     stringMatching(string1, string2)
