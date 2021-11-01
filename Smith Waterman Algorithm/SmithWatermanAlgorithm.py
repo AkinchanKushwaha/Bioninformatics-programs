@@ -63,8 +63,6 @@ def findAlignment(firstSequence, secondSequence):
     i = maxScoreRow
     j = maxScoreColumn
 
-    print("i ", maxScoreRow, "j ", maxScoreColumn)
-
     # Initialization of two empty strings
     firstStringFinal = ""
     secondStringFinal = ""
@@ -84,7 +82,6 @@ def findAlignment(firstSequence, secondSequence):
             secondStringFinal = secondSequence[j - 1] + secondStringFinal
             i = i - 1
             j = j - 1
-
 
         elif currentElement == topElement:
             firstStringFinal = firstSequence[i - 1] + firstStringFinal
