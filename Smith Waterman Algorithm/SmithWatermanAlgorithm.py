@@ -31,7 +31,10 @@ def findAlignment(firstSequence, secondSequence):
         for j in range(1, m + 1):
 
             if firstSequence[i - 1] == secondSequence[j - 1]:
-                dp[i][j] = 1 + dp[i - 1][j - 1]
+                if dp[i - 1][j - 1] < 0:
+                    dp[i][j] = 1
+                else:
+                    dp[i][j] = 1 + dp[i - 1][j - 1]
 
             else:
                 dp[i][j] = max(dp[i - 1][j] - 1, dp[i][j - 1] - 1, dp[i - 1][j - 1])
@@ -72,26 +75,14 @@ def findAlignment(firstSequence, secondSequence):
 
     # Backtracking: Begin with the highest score, end when 0 is encountered.
     while i > 0 or j > 0:
-        leftElement = dp[i][j - 1]
-        topElement = dp[i - 1][j]
-        diagonalElement = dp[i - 1][j - 1]
-        currentElement = dp[i][j]
 
-        if diagonalElement >= leftElement and diagonalElement >= topElement:
-            firstStringFinal = firstSequence[i - 1] + firstStringFinal
-            secondStringFinal = secondSequence[j - 1] + secondStringFinal
-            i = i - 1
-            j = j - 1
+        firstStringFinal = firstSequence[i - 1] + firstStringFinal
+        secondStringFinal = secondSequence[j - 1] + secondStringFinal
+        i = i - 1
+        j = j - 1
 
-        elif currentElement == topElement:
-            firstStringFinal = firstSequence[i - 1] + firstStringFinal
-            secondStringFinal = "_" + secondStringFinal
-            i = i - 1
-
-        else:
-            secondStringFinal = secondSequence[j - 1] + secondStringFinal
-            firstStringFinal = "_" + firstStringFinal
-            j = j - 1
+        if dp[i][j] == 0:
+            break
 
         print("step:", step, firstStringFinal, " ", secondStringFinal)
         step += 1
