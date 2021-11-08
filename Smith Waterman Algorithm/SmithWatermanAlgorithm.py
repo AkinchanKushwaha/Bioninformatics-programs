@@ -1,3 +1,9 @@
+# ==========================================
+#  Author: Akinchan Kushwaha
+#  Date:   8 Nov 2021
+# ==========================================
+
+
 # match = 1, mismatch = 0, indel = -1
 import sys
 
@@ -81,11 +87,11 @@ def findAlignment(firstSequence, secondSequence):
         i = i - 1
         j = j - 1
 
-        if dp[i][j] == 0:
-            break
-
         print("step:", step, firstStringFinal, " ", secondStringFinal)
         step += 1
+
+        if dp[i][j] == 0:
+            break
 
     # print highlighted common sequence
     highlightMatchingSequence(firstStringFinal, secondStringFinal)

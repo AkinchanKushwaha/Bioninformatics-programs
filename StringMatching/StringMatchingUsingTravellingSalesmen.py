@@ -111,7 +111,7 @@ def stringMatching(firstString, secondString):
             firstStringFinal = "_" + firstStringFinal
             j = j - 1
 
-        print("step:", step, firstStringFinal, " ", secondStringFinal)
+        # print("step:", step, firstStringFinal, " ", secondStringFinal)
         step += 1
 
     # print highlighted common sequence
