@@ -117,7 +117,7 @@ def highlightMatchingSequence(firstString, secondString):
     print()
 
 
-# function to display a two dimensional function.
+# function to display a two dimensional matrix.
 def printMatrix(arr, firstString, secondString):
     print("  _", end=" ")
     for i in range(len(secondString)):
